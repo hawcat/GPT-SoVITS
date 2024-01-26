@@ -341,8 +341,8 @@ if __name__ == '__main__':
     ################
     open1abc(slicer_path, os.path.join(work_dir, "slicer_opt"), args.exp_name)
 
-    sovits_train(args.exp_name)
-    gpt_train(args.exp_name)
+    sovits_path = sovits_train(args.exp_name)
+    gpt_path = gpt_train(args.exp_name)
 
     ################
     # Inference
@@ -360,5 +360,5 @@ if __name__ == '__main__':
     sentences = split_sentences(args.tts_prompt)
 
     for idx, sentence in enumerate(sentences):
-        tts_gen.get_tts_wav(reference_wav, sentence, prompt_lang, reference_text, reference_lang,
+        tts_gen.get_tts_wav(gpt_path, sovits_path, reference_wav, sentence, prompt_lang, reference_text, reference_lang,
                             os.path.join(work_dir, f"output_{idx}.wav"))

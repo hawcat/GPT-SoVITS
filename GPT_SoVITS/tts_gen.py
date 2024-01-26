@@ -128,9 +128,6 @@ def change_sovits_weights(sovits_path):
     print(vq_model.load_state_dict(dict_s2["weight"], strict=False))
 
 
-change_sovits_weights(sovits_path)
-
-
 def change_gpt_weights(gpt_path):
     global hz, max_sec, t2s_model, config
     hz = 50
@@ -145,9 +142,6 @@ def change_gpt_weights(gpt_path):
     t2s_model.eval()
     total = sum([param.nelement() for param in t2s_model.parameters()])
     print("Number of parameter: %.2fM" % (total / 1e6))
-
-
-change_gpt_weights(gpt_path)
 
 
 def get_spepc(hps, filename):
@@ -169,11 +163,20 @@ def get_spepc(hps, filename):
 dict_language = {
     i18n("中文"): "zh",
     i18n("英文"): "en",
-    i18n("日文"): "ja"
+    i18n("日文"): "ja",
+    "zh": "zh",
+    "en": "en",
+    "ja": "ja",
+    "ZH": "zh",
+    "EN": "en",
+    "JA": "ja"
 }
 
 
-def get_tts_wav(ref_wav_path, prompt_text, prompt_language, text, text_language, output_file):
+def get_tts_wav(gpt_path, sovits_path, ref_wav_path, prompt_text, prompt_language, text, text_language, output_file):
+    print(f"开始推理，使用模型: GPT:{gpt_path}, SOVITS:{sovits_path}")
+    change_gpt_weights(gpt_path)
+    change_sovits_weights(sovits_path)
     t0 = ttime()
     prompt_text = prompt_text.strip("\n")
     prompt_language, text = prompt_language, text.strip("\n")
@@ -264,9 +267,9 @@ def get_tts_wav(ref_wav_path, prompt_text, prompt_language, text, text_language,
         audio_opt.append(zero_wav)
         t4 = ttime()
     print("%.3f\t%.3f\t%.3f\t%.3f" % (t1 - t0, t2 - t1, t3 - t2, t4 - t3))
-    yield hps.data.sampling_rate, (np.concatenate(audio_opt, 0) * 32768).astype(
-        np.int16
-    )
+    # yield hps.data.sampling_rate, (np.concatenate(audio_opt, 0) * 32768).astype(
+    #     np.int16
+    # )
 
     write(output_file, hps.data.sampling_rate, (np.concatenate(audio_opt, 0) * 32768).astype(
         np.int16))
