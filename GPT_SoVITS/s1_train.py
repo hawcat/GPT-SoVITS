@@ -83,8 +83,8 @@ class my_model_ckpt(ModelCheckpoint):
             self._save_last_checkpoint(trainer, monitor_candidates)
 
 
-def main(args):
-    config = load_yaml_config(args.config_file)
+def main(config_file="configs/s1longer.yaml"):
+    config = load_yaml_config(config_file)
 
     output_dir = Path(config["output_dir"])
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -168,4 +168,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     logging.info(str(args))
-    main(args)
+    main(config_file="configs/s1longer.yaml")

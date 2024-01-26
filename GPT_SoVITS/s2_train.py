@@ -1,7 +1,7 @@
 import utils, os
 
-hps = utils.get_hparams(stage=2)
-os.environ["CUDA_VISIBLE_DEVICES"] = hps.train.gpu_numbers.replace("-", ",")
+# hps = utils.get_hparams(stage=2)
+
 import torch
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
@@ -42,13 +42,16 @@ torch.set_float32_matmul_precision("medium")  # 最低精度但最快（也就�
 global_step = 0
 
 
-def main():
+def main(hps_path):
     """Assume Single Node Multi GPUs Training Only"""
     assert torch.cuda.is_available(), "CPU training is not allowed."
 
     n_gpus = torch.cuda.device_count()
     os.environ["MASTER_ADDR"] = "localhost"
     os.environ["MASTER_PORT"] = str(randint(20000, 55555))
+
+    hps = utils.get_hparams(stage=2, json_path=hps_path)
+    os.environ["CUDA_VISIBLE_DEVICES"] = hps.train.gpu_numbers.replace("-", ",")
 
     mp.spawn(
         run,
@@ -264,7 +267,7 @@ def run(rank, n_gpus, hps):
 
 
 def train_and_evaluate(
-    rank, epoch, hps, nets, optims, schedulers, scaler, loaders, logger, writers
+        rank, epoch, hps, nets, optims, schedulers, scaler, loaders, logger, writers
 ):
     net_g, net_d = nets
     optim_g, optim_d = optims
@@ -279,14 +282,14 @@ def train_and_evaluate(
     net_g.train()
     net_d.train()
     for batch_idx, (
-        ssl,
-        ssl_lengths,
-        spec,
-        spec_lengths,
-        y,
-        y_lengths,
-        text,
-        text_lengths,
+            ssl,
+            ssl_lengths,
+            spec,
+            spec_lengths,
+            y,
+            y_lengths,
+            text,
+            text_lengths,
     ) in tqdm(enumerate(train_loader)):
         spec, spec_lengths = spec.cuda(rank, non_blocking=True), spec_lengths.cuda(
             rank, non_blocking=True
@@ -490,14 +493,14 @@ def evaluate(hps, generator, eval_loader, writer_eval):
     print("Evaluating ...")
     with torch.no_grad():
         for batch_idx, (
-            ssl,
-            ssl_lengths,
-            spec,
-            spec_lengths,
-            y,
-            y_lengths,
-            text,
-            text_lengths,
+                ssl,
+                ssl_lengths,
+                spec,
+                spec_lengths,
+                y,
+                y_lengths,
+                text,
+                text_lengths,
         ) in enumerate(eval_loader):
             print(111)
             spec, spec_lengths = spec.cuda(), spec_lengths.cuda()
@@ -564,3 +567,4 @@ def evaluate(hps, generator, eval_loader, writer_eval):
 
 if __name__ == "__main__":
     main()
+

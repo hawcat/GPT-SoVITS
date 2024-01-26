@@ -19,6 +19,7 @@ from scipy.io import wavfile
 from io import BytesIO
 from my_utils import load_audio
 
+
 # ZeroDivisionError fixed by Tybost (https://github.com/RVC-Boss/GPT-SoVITS/issues/79)
 class TextAudioSpeakerLoader(torch.utils.data.Dataset):
     """
@@ -130,7 +131,7 @@ class TextAudioSpeakerLoader(torch.utils.data.Dataset):
         audio_norm = audio
         audio_norm = audio_norm.unsqueeze(0)
         spec = spectrogram_torch(audio_norm, self.filter_length, self.sampling_rate, self.hop_length, self.win_length,
-                                  center=False)
+                                 center=False)
         spec = torch.squeeze(spec, 0)
         return spec, audio_norm
 
@@ -147,7 +148,7 @@ class TextAudioSpeakerLoader(torch.utils.data.Dataset):
 
     def random_slice(self, ssl, wav, mel):
         assert abs(ssl.shape[-1] - wav.shape[-1] // self.hop_length) < 3, (
-        "first", ssl.shape, wav.shape)
+            "first", ssl.shape, wav.shape)
 
         len_mel = mel.shape[1]
         if self.val:
@@ -168,7 +169,7 @@ class TextAudioSpeakerLoader(torch.utils.data.Dataset):
             mel = mel[:, :sep_point]
 
         assert abs(ssl.shape[-1] - wav2.shape[-1] // self.hop_length) < 3, (
-        ssl.shape, wav.shape, wav2.shape, mel.shape, sep_point, self.hop_length, sep_point * self.hop_length, dir)
+            ssl.shape, wav.shape, wav2.shape, mel.shape, sep_point, self.hop_length, sep_point * self.hop_length, dir)
         return reference_mel, ssl, wav2, mel
 
 

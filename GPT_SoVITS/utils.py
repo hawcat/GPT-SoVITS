@@ -1,5 +1,6 @@
 import os
 import glob
+import re
 import sys
 import argparse
 import logging
@@ -28,9 +29,9 @@ def load_checkpoint(checkpoint_path, model, optimizer=None, skip_optimizer=False
     iteration = checkpoint_dict["iteration"]
     learning_rate = checkpoint_dict["learning_rate"]
     if (
-        optimizer is not None
-        and not skip_optimizer
-        and checkpoint_dict["optimizer"] is not None
+            optimizer is not None
+            and not skip_optimizer
+            and checkpoint_dict["optimizer"] is not None
     ):
         optimizer.load_state_dict(checkpoint_dict["optimizer"])
     saved_state_dict = checkpoint_dict["model"]
@@ -87,13 +88,13 @@ def save_checkpoint(model, optimizer, learning_rate, iteration, checkpoint_path)
 
 
 def summarize(
-    writer,
-    global_step,
-    scalars={},
-    histograms={},
-    images={},
-    audios={},
-    audio_sampling_rate=22050,
+        writer,
+        global_step,
+        scalars={},
+        histograms={},
+        images={},
+        audios={},
+        audio_sampling_rate=22050,
 ):
     for k, v in scalars.items():
         writer.add_scalar(k, v, global_step)
@@ -181,13 +182,13 @@ def load_filepaths_and_text(filename, split="|"):
     return filepaths_and_text
 
 
-def get_hparams(init=True, stage=1):
+def get_hparams(init=True, stage=1, json_path="./configs/s2.json"):
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-c",
         "--config",
         type=str,
-        default="./configs/s2.json",
+        default=json_path,
         help="JSON file for configuration",
     )
     parser.add_argument(
@@ -352,6 +353,12 @@ class HParams:
 
     def __repr__(self):
         return self.__dict__.__repr__()
+
+
+def contains_chinese(text):
+    # 使用正则表达式匹配中文字符
+    chinese_pattern = re.compile('[\u4e00-\u9fff]')
+    return bool(chinese_pattern.search(text))
 
 
 if __name__ == "__main__":

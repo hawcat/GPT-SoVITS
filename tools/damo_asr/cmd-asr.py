@@ -13,6 +13,7 @@ path_punc='tools/damo_asr/models/punc_ct-transformer_zh-cn-common-vocab272727-py
 path_asr=path_asr if os.path.exists(path_asr)else "damo/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-pytorch"
 path_vad=path_vad if os.path.exists(path_vad)else "damo/speech_fsmn_vad_zh-cn-16k-common-pytorch"
 path_punc=path_punc if os.path.exists(path_punc)else "damo/punc_ct-transformer_zh-cn-common-vocab272727-pytorch"
+
 inference_pipeline = pipeline(
     task=Tasks.auto_speech_recognition,
     model=path_asr,

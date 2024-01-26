@@ -18,6 +18,23 @@ A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br><br>
 
 ------
 
+## 分支内容
+
+- 新写了命令行推理接口，使用参数输入输出，一键完成预处理数据集、训练、微调、推理这四个过程。
+
+- 暴露了接口，但为了方便使用给了许多默认值，如果您有需要可以传值。
+- 增加了Whisper来代替funasr，适配原数据处理格式。
+- 修改了诸多代码不规范的内容。
+
+
+
+## Branch Contents
+
+- Implemented a new command-line inference interface that utilizes input and output parameters, allowing one-click completion of the four processes: dataset preprocessing, training, fine-tuning, and inference.
+
+- Exposed the interface with many default values for ease of use. You can pass values if needed.
+- Integrated Whisper to replace funasr, adapting to the original data processing format.
+- Rectified various instances of non-compliant code.
 
 
 > Check out our [demo video](https://www.bilibili.com/video/BV12g4y1m7Uw) here!
