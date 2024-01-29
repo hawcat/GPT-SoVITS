@@ -20,10 +20,6 @@ from modelscope import pipeline, Tasks
 
 import s1_train
 import s2_train
-import tts_gen
-import utils
-
-import spacy
 from faster_whisper import WhisperModel
 
 from config import python_exec, is_half, exp_root
@@ -278,7 +274,8 @@ def audio_recognition(input_wav_path: str) -> tuple[str, Union[dict[Any, Any], d
                 for segment in segments:
                     recognition_text += segment.text
                 with open(output_slicer_path, mode="a+", encoding="utf-8") as f:
-                    f.write(f"{os.path.abspath(file)}|{os.path.basename(os.path.dirname(file))}|{language}|{recognition_text}\n")
+                    f.write(
+                        f"{os.path.abspath(file)}|{os.path.basename(os.path.dirname(file))}|{language}|{recognition_text}\n")
 
                 # TODO
                 if idx == 2:
@@ -300,6 +297,7 @@ def split_wav(input_wav_path: str, asr_list: list):
             print(f"split {input_wav_path} to {slice_audio['wav_path']}")
         except Exception as e:
             print(e)
+
 
 def denosie(input, output):
     ans = pipeline(
@@ -352,4 +350,3 @@ if __name__ == '__main__':
         f.write(f"{gpt_path}|{sovits_path}|{reference_wav}|{reference_text}|{reference_lang}")
 
     os.removedirs(os.path.join(work_dir, "logs"))
-

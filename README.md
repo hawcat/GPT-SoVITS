@@ -20,11 +20,31 @@ A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br><br>
 
 ## 分支内容
 
-- 新写了命令行推理接口，使用参数输入输出，一键完成预处理数据集、训练、微调、推理这四个过程。
+- 分离了训练和推理脚本
 
-- 暴露了接口，但为了方便使用给了许多默认值，如果您有需要可以传值。
-- 增加了Whisper来代替funasr，适配原数据处理格式。
-- 修改了诸多代码不规范的内容。
+- 使用
+
+  [FRCRN语音降噪模型]: https://modelscope.cn/models/iic/speech_frcrn_ans_cirm_16k/summary	"FRCRN model from modelscope"
+
+  代替UVR5进行训练集、导出流程的人声抽离、降噪
+
+  
+
+**TODOList:**
+
+- 关于ref_wav这块还是采用的训练集中的一条，代码中标识了 *# TODO*，按照规范应该是自己上传并填写音频内容。
+
+
+
+**Usage:**
+
+```python
+cd GPT-SoVITS
+
+python train_cli.py --work_dir "C:\\Users\\hawcat\\Desktop\\preparation" --input_wav_file "input.wav" --exp_name "AIdingzhen"
+
+python inference_cli.py  --work_dir "C:\\Users\\hawcat\\Desktop\\preparation" --tts_prompt "今天我很荣幸作为一个青藏高原的孩子能来到联合国讲我和动物朋友们故事。" --output_file C:\\Users\\hawcat\\Desktop\\preparation\\123.wav
+```
 
 
 
@@ -35,6 +55,7 @@ A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br><br>
 - Exposed the interface with many default values for ease of use. You can pass values if needed.
 - Integrated Whisper to replace funasr, adapting to the original data processing format.
 - Rectified various instances of non-compliant code.
+- 
 
 
 > Check out our [demo video](https://www.bilibili.com/video/BV12g4y1m7Uw) here!

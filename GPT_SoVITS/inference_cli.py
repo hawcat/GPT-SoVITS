@@ -64,7 +64,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--work_dir', type=str, default="C:\\Users\\hawcat\\Desktop\\preparation")
     parser.add_argument('--tts_prompt', type=str,
-                        default="今天我很荣幸作为一个青藏高原的孩子能来到联合国，讲我和动物朋友们的故事。我的村庄叫然日卡，小小的，但是格聂山和横断山脉却很大。")
+                        default="这个消息昨晚传出来，也是要给今天开盘的市场打气。强烈期待本周市场再涨一波。A股加油！！")
     parser.add_argument("--output_file", type=str, default="C:\\Users\\hawcat\\Desktop\\preparation\\123.wav")
     args = parser.parse_args()
 
