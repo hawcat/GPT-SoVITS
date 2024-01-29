@@ -1,7 +1,8 @@
 import os
-import traceback,gradio as gr
+import traceback, gradio as gr
 import logging
 from tools.i18n.i18n import I18nAuto
+
 i18n = I18nAuto()
 
 logger = logging.getLogger(__name__)
@@ -18,10 +19,11 @@ for name in os.listdir(weight_uvr5_root):
     if name.endswith(".pth") or "onnx" in name:
         uvr5_names.append(name.replace(".pth", ""))
 
-device=sys.argv[1]
-is_half=sys.argv[2]
-webui_port_uvr5=int(sys.argv[3])
-is_share=eval(sys.argv[4])
+device = sys.argv[1]
+is_half = sys.argv[2]
+webui_port_uvr5 = int(sys.argv[3])
+is_share = eval(sys.argv[4])
+
 
 def uvr(model_name, inp_root, save_root_vocal, paths, save_root_ins, agg, format0):
     infos = []
@@ -119,7 +121,8 @@ def uvr(model_name, inp_root, save_root_vocal, paths, save_root_ins, agg, format
 with gr.Blocks(title="RVC WebUI") as app:
     gr.Markdown(
         value=
-            i18n("本软件以MIT协议开源, 作者不对软件具备任何控制力, 使用软件者、传播软件导出的声音者自负全责. <br>如不认可该条款, 则不能使用或引用软件包内任何代码和文件. 详见根目录<b>LICENSE</b>.")
+        i18n(
+            "本软件以MIT协议开源, 作者不对软件具备任何控制力, 使用软件者、传播软件导出的声音者自负全责. <br>如不认可该条款, 则不能使用或引用软件包内任何代码和文件. 详见根目录<b>LICENSE</b>.")
     )
     with gr.Tabs():
         with gr.TabItem(i18n("伴奏人声分离&去混响&去回声")):

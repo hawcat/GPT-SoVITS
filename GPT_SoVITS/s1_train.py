@@ -147,7 +147,7 @@ def main(config_file="configs/s1longer.yaml"):
     trainer.fit(model, data_module, ckpt_path=ckpt_path)
 
 
-# srun --gpus-per-node=1 --ntasks-per-node=1 python train.py --path-to-configuration configurations/default.yaml
+# srun --gpus-per-node=1 --ntasks-per-node=1 python train_cli.py --path-to-configuration configurations/default.yaml
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
