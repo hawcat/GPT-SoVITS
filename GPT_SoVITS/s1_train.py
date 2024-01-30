@@ -28,13 +28,13 @@ from collections import OrderedDict
 
 class my_model_ckpt(ModelCheckpoint):
     def __init__(
-        self,
-        config,
-        if_save_latest,
-        if_save_every_weights,
-        half_weights_save_dir,
-        exp_name,
-        **kwargs
+            self,
+            config,
+            if_save_latest,
+            if_save_every_weights,
+            half_weights_save_dir,
+            exp_name,
+            **kwargs
     ):
         super().__init__(**kwargs)
         self.if_save_latest = if_save_latest
@@ -45,15 +45,15 @@ class my_model_ckpt(ModelCheckpoint):
 
     def on_train_epoch_end(self, trainer, pl_module):
         if not self._should_skip_saving_checkpoint(
-            trainer
+                trainer
         ) and self._should_save_on_train_epoch_end(trainer):
             monitor_candidates = self._monitor_candidates(trainer)
             if (
-                self._every_n_epochs >= 1
-                and (trainer.current_epoch + 1) % self._every_n_epochs == 0
+                    self._every_n_epochs >= 1
+                    and (trainer.current_epoch + 1) % self._every_n_epochs == 0
             ):
                 if (
-                    self.if_save_latest == True
+                        self.if_save_latest == True
                 ):  ####如果设置只保存最后一个ckpt，在保存下一个ckpt后要清理掉之前的所有ckpt
                     to_clean = list(os.listdir(self.dirpath))
                 self._save_topk_checkpoint(trainer, monitor_candidates)
@@ -83,7 +83,7 @@ class my_model_ckpt(ModelCheckpoint):
             self._save_last_checkpoint(trainer, monitor_candidates)
 
 
-def main(config_file="configs/s1longer.yaml"):
+def main(config_file):
     config = load_yaml_config(config_file)
 
     output_dir = Path(config["output_dir"])
@@ -168,4 +168,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     logging.info(str(args))
-    main(config_file="configs/s1longer.yaml")
+    if os.path.exists(args.config_file):
+        main(config_file=args.config_file)
+    else:
+        main(config_file="GPT_SoVITS/configs/s1longer.yaml")

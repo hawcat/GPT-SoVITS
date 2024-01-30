@@ -1,3 +1,5 @@
+import sys
+
 import utils, os
 
 # hps = utils.get_hparams(stage=2)
@@ -40,6 +42,11 @@ torch.backends.cudnn.allow_tf32 = True
 torch.set_float32_matmul_precision("medium")  # 最低精度但最快（也就快一丁点），对于结果造成不了影响
 # from config import pretrained_s2G,pretrained_s2D
 global_step = 0
+# print(sys.argv)
+if len(sys.argv) > 1:
+    hps_path = sys.argv[1]
+else:
+    pass
 
 
 def main(hps_path):
@@ -566,5 +573,4 @@ def evaluate(hps, generator, eval_loader, writer_eval):
 
 
 if __name__ == "__main__":
-    main()
-
+    main(hps_path)

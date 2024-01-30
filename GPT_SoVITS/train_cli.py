@@ -311,14 +311,20 @@ def denosie(input, output):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--work_dir", type=str, default="C:\\Users\\hawcat\\Desktop\\preparation")
-    parser.add_argument("--input_wav_file", type=str, default="input.wav")
+    parser.add_argument("--input_wav_file", type=str, default="C:\\Users\hawcat\Desktop\哆啦A梦\\1_dlam_(Vocals).wav")
     parser.add_argument("--exp_name", type=str, default="test")
+    parser.add_argument("--denoise", action="store_true")
 
     args = parser.parse_args()
     work_dir = args.work_dir
     input_wav_file = args.input_wav_file
     denoised_wav_file = os.path.join(work_dir, "denoised.wav")
-    denosie(input_wav_file, denoised_wav_file)
+    if args.denoise:
+        denosie(input_wav_file, denoised_wav_file)
+        input_wav_file = denoised_wav_file
+
+    else:
+        denoised_wav_file = input_wav_file
 
     SoVITS_weight_root = os.path.join(work_dir, "SoVITS_weights")
     GPT_weight_root = os.path.join(work_dir, "GPT_weights")

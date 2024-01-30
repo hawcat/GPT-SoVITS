@@ -62,9 +62,9 @@ def denosie(input, output):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--work_dir', type=str, default="C:\\Users\\hawcat\\Desktop\\preparation")
+    parser.add_argument('--work_dir', type=str, default="C:\\Users\hawcat\Desktop\preparation")
     parser.add_argument('--tts_prompt', type=str,
-                        default="这个消息昨晚传出来，也是要给今天开盘的市场打气。强烈期待本周市场再涨一波。A股加油！！")
+                        default="最喜欢哆啦埃梦啦")
     parser.add_argument("--output_file", type=str, default="C:\\Users\\hawcat\\Desktop\\preparation\\123.wav")
     args = parser.parse_args()
 
